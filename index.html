@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bem-vindo ao site Noahwx, sua fonte para desenvolvimento web e tecnologia.">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Noahwx</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            Noah
+        </div>
+        <nav>
+            <span id="language-btn">Mudar Idioma</span>
+            <span id="theme-btn" class="theme-btn">
+                <i class='bx bx-sun'></i> <!-- Sol ícone -->
+            </span>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="profile">
+            <img src="https://cdn.discordapp.com/avatars/1266387274199990408/e01b12624de2f6ac86ab032c10df5193.png?size=2048"
+                alt="Foto de Perfil de Noah">
+            <h1>Noahx</h1>
+            <h2>noahwx</h2>
+            <p><i class='fas fa-map-marker-alt'></i>São Paulo</p>
+            <p><i class='bx bx-envelope'></i>pqpnoahwx@gmail.com</p>
+        </div>
+
+        <div class="embed-content">
+            <div class="embed-intro">
+                <div class="knowledge-header" id="intro-header">
+                    <i class='bx bx-info-circle'></i>
+                    <h2>Introdução</h2>
+                </div>
+                <p id="intro-text">Olá! Sou Noah, um desenvolvedor apaixonado por tecnologia e inovação. Tenho
+                    experiência em várias linguagens de programação e adoro resolver problemas complexos com soluções
+                    criativas.</p>
+            </div>
+
+            <div class="section">
+                <div class="knowledge-header" id="about-header">
+                    <i class='bx bx-user'></i>
+                    <h2>Sobre Mim</h2>
+                </div>
+                <p id="about-text">Sou um desenvolvedor full-stack com foco em criar experiências web intuitivas e
+                    eficientes. Tenho um histórico comprovado em projetos que variam de sites corporativos a aplicativos
+                    web dinâmicos.</p>
+            </div>
+
+            <div class="section">
+                <div class="knowledge-header" id="skills-header">
+                    <i class='bx bxs-brain'></i>
+                    <h2>Habilidades</h2>
+                </div>
+                <div class="skills" id="skills-content">
+                    <!-- Habilidades serão carregadas dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Idiomas -->
+    <div id="languageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLanguageModal">&times;</span>
+            <h2>Escolha o Idioma</h2>
+            <p>Selecione o idioma desejado:</p>
+            <ul>
+                <li><a href="?lang=pt" class="modal-link">Português</a></li>
+                <li><a href="?lang=en" class="modal-link">English</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const themeToggleButton = document.getElementById('theme-btn');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            themeToggleButton.innerHTML = savedTheme === 'light-theme' ? "<i class='bx bx-moon'></i>" : "<i class='bx bx-sun'></i>";
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+                themeToggleButton.innerHTML = "<i class='bx bx-sun'></i>";
+            } else {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light-theme');
+                themeToggleButton.innerHTML = "<i class='bx bx-moon'></i>";
+            }
+        });
+
+        const languageBtn = document.getElementById('language-btn');
+        const languageModal = document.getElementById('languageModal');
+        const closeLanguageModal = document.getElementById('closeLanguageModal');
+
+        languageBtn.addEventListener('click', () => {
+            languageModal.style.display = 'block';
+        });
+
+        closeLanguageModal.addEventListener('click', () => {
+            languageModal.style.display = 'none';
+        });
+
+        window.onclick = function (event) {
+            if (event.target == languageModal) {
+                languageModal.style.display = 'none';
+            }
+        }
+
+        function changeLanguage(lang) {
+            const introText = {
+                pt: "Olá! Sou Noah, um desenvolvedor apaixonado por tecnologia e inovação. Tenho experiência em várias linguagens de programação e adoro resolver problemas complexos com soluções criativas.",
+                en: "Hello! I'm Noah, a developer passionate about technology and innovation. I have experience in various programming languages and love solving complex problems with creative solutions."
+            };
+            const aboutText = {
+                pt: "Sou um desenvolvedor full-stack com foco em criar experiências web intuitivas e eficientes. Tenho um histórico comprovado em projetos que variam de sites corporativos a aplicativos web dinâmicos.",
+                en: "I am a full-stack developer focused on creating intuitive and efficient web experiences. I have a proven track record in projects ranging from corporate websites to dynamic web applications."
+            };
+            const skillsHeader = {
+                pt: "Habilidades",
+                en: "Skills"
+            };
+
+            document.getElementById('intro-text').innerText = introText[lang];
+            document.getElementById('about-text').innerText = aboutText[lang];
+            document.getElementById('intro-header').querySelector('h2').innerText = lang === 'pt' ? 'Introdução' : 'Introduction';
+            document.getElementById('about-header').querySelector('h2').innerText = lang === 'pt' ? 'Sobre Mim' : 'About Me';
+            document.getElementById('skills-header').querySelector('h2').innerText = skillsHeader[lang];
+
+            const skillsContent = `
+            <div class="skill-item">
+                    <i class='bx bxl-python'></i>
+                    <div class="tooltip">Python</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-javascript'></i>
+                    <div class="tooltip">JavaScript</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-typescript'></i>
+                    <div class="tooltip">TypeScript</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-react'></i>
+                    <div class="tooltip">React</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-nodejs'></i>
+                    <div class="tooltip">Node.js</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-html5'></i>
+                    <div class="tooltip">HTML</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-css3'></i>
+                    <div class="tooltip">CSS</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-c-plus-plus'></i>
+                    <div class="tooltip">C++</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-c-plus-plus'></i>
+                    <div class="tooltip">C#</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-postgresql'></i>
+                    <div class="tooltip">PostgreSQL</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-mongodb'></i>
+                    <div class="tooltip">MongoDB</div>
+                </div>
+                <div class="skill-item">
+                    <i class='bx bxl-github'></i>
+                    <div class="tooltip">GitHub</div>
+                </div>
+            `;
+
+            document.getElementById('skills-content').innerHTML = skillsContent;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang') || 'pt';
+        changeLanguage(lang);
+    </script>
+</body>
+
+</html>
